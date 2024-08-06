@@ -29,6 +29,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "whitenoise.runserver_nostatic",
+
     "crispy_forms",
     "crispy_bootstrap5",
     'rest_framework',
@@ -36,6 +38,8 @@ INSTALLED_APPS = [
     'books',
     'users',
     'api'
+
+
 ]
 
 
@@ -44,6 +48,7 @@ CRISPY_TEMPLATE_PACK = "bootstrap5"
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -136,6 +141,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR / 'static')
 ]
 STATIC_ROOT = os.path.join(BASE_DIR / "staticfiles")
+STATICFILES_STORAGE = "whitenoise.storage.CompressedManifestStaticFilesStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
