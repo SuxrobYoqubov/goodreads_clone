@@ -10,6 +10,7 @@ crispy-bootstrap5 = "*"
 rabbitmq = "*"
 celery = "*"
 djangorestframework = "*"
+gunicorn = "*"
 
 [dev-packages]
 
