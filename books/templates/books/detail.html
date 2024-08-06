@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %}Book Detail page {% endblock %}
+{% block content %}
+
+
+<div class="row">
+    <div class="col-2">
+        <img class = "cover-pic" alt="Cover picture" src="{{ book.cover_picture.url }}">
+    </div>
+    <div class="col-6 ms-5">
+        <h3>{{book.title}}</h3>
+        <span class="fst-italic">
+            Authored by
+            {%for book_author in book.bookauthor_set.all %}
+
+            {%if forloop.last%}
+            {{book_author.author.full_name}}
+            {% else %}
+            {{book_author.author.full_name}},
+            {% endif %}
+            {% endfor %}
+        </span>
+        <p>{{book.description}}</p>
+    </div>
+    <div class="col-3">
+        <h3>Comment</h3>
+        <form method="post" action="{% url 'books:reviews' book.id %}">
+            {% csrf_token %}
+            {{ review_form | crispy }}
+            <button class="btn btn-success">Add review</button>
+        </form>
+    </div>
+</div>
+<br>
+
+{% if book.bookreview_set.exists %}
+    <h4>Reviews</h4><hr>
+    {% for review in book.bookreview_set.all %}
+    <div class="row mb-3" >
+        <div class="col-2 me-4">
+            <img class="profile-pic" src="{{ review.user.profile_picture.url }}">
+        </div>
+        <div class="col-7">
+            <b>{{ review.user.username }} </b>rated it {{ review.stars_given }} stars  <span class="fw-lighter"> {{ review.created_at| date:"d M, Y"  }}</span>
+            {% if review.user == request.user %}
+                <a href="{% url 'books:review-edit' book.id review.id%}"><i class="bi bi-pen"></i></a>
+                <a href="{% url 'books:confirm-review-delete' book.id review.id%}"><i class="bi bi-trash"></i></a>
+            {% endif %}
+            <p class="mt-2 font-monospace">{{ review.comment}}</p>
+        </div>
+    </div>
+
+    {% endfor %}
+{% endif %}
+
+
+
+
+{% endblock %}

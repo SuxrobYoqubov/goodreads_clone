@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% load crispy_forms_tags %}
+{% block title %} Confirm delete review {% endblock %}
+{% block content %}
+ <h3>Haqiqatdan ham izohni o'chirmoqchimisiz ?</h3>
+<p>
+    <b>Book:</b> {{book.title}}
+</p>
+<p>
+    <b>Comment:</b> {{review.comment}}
+</p>
+<a class="btn btn-outline-danger" href="{% url 'books:review-delete' book.id review.id%}">Yes</a>
+<a href="{% url 'books:detail' book.id %}" class="btn btn-outline-primary">No</a>
+
+
+{% endblock content %}
